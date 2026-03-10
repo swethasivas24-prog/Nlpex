@@ -1,0 +1,36 @@
+import re
+text = """Hello team, our new product launch is planned for 25/01/2026 at 10:30 AM.
+Please contact marketingteam@startupAI.com or support@startupAI.com for more details.
+Follow us on social media using #StartupAI #ProductLaunch.
+Visit our website at https://www.startupAI.com for more info.
+The early bird price is 2999$ (limited offer!!) and valid for 100 users only."""
+hashtags = re.findall(r"#\w+", text)
+mentions = re.findall(r"@\w+", text)
+emails = re.findall(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text)
+urls = re.findall(r"https?://[^\s]+", text)
+dates = re.findall(r"\b\d{1,2}/\d{1,2}/\d{4}\b", text)
+tokens = re.findall(r"\b\w+\b", text)
+
+print("Hashtags:", hashtags)
+print("Mentions:", mentions)
+print("Emails:", emails)
+print("URLs:", urls)
+print("Dates:", dates)
+print("Tokens:", tokens)
+print("\n")
+
+
+import re
+patterns=[("[0-9]","The student strength is 31 but the perfection percentage is 100."),
+          ("[A-Z][a-z]+","Athi and Meenakshmihandle the NLP."),
+          ("[aeiou]+","Natural Language Processing Essentials."),
+          ("[a-z]+@[a-z]+\.com","Gmail id is person@gmail.com")
+          ]
+for pattern,text in patterns:
+    print("Pattern:",pattern)
+    print("Text:",text)
+    matches=re.findall(pattern,text)
+    if matches:
+        print("Matches found:",matches)
+    else:
+        print("No matches found")
