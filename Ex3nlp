@@ -1,0 +1,55 @@
+import re
+from collections import Counter
+import nltk
+from nltk.corpus import stopwords
+
+# Sample social media posts
+posts = [
+    "I love this new phone battery life is amazing",
+    "This update is very bad and disappointing",
+    "Amazing camera and great performance",
+    "The app is slow and the interface is bad",
+    "I love the camera quality and battery performance"
+]
+#nltk.download('stopwords')
+stwords = set(stopwords.words('english'))
+ug,bg,tg = [],[],[]
+
+# Preprocess and generate n-grams
+for post in posts:
+    post = post.lower()
+    post = re.sub(r'[^a-z\s]', '', post) #negate lower case a-z and white space
+    words = [w for w in post.split() if w not in stwords]
+    ug.extend(words)
+    bg.extend(zip(words, words[1:]))
+    tg.extend(zip(words, words[1:], words[2:]))
+
+# Count frequencies
+ugc = Counter(ug)
+bgc = Counter(bg)
+tgc = Counter(tg)
+
+# Display trending phrases
+print("Top Unigrams:",ugc.most_common(3))
+print("\nTop Bigrams:",bgc.most_common(3))
+print("\nTop Trigrams:",tgc.most_common(3))
+
+# Simple sentiment analysis
+from textblob import TextBlob
+print("\nSentiment Analysis:")
+for post in posts:
+    blob = TextBlob(post)
+    polarity = blob.sentiment.polarity
+    if polarity > 0:
+        print("Positive")
+    elif polarity < 0:
+        print("Negative")
+    else:
+        print("Neutral")
+    print(f"Post: '{post}' → Polarity: {polarity}")
+
+
+
+
+from textblob import TextBlob
+print("TextBlob installed successfully")
